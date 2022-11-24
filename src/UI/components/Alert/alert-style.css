@@ -1,0 +1,7 @@
+.container {
+  position: relative;
+  width: 300;
+  height: 200;
+  align-items: center;
+  justify-content: center;
+}

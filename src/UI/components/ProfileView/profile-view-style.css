@@ -1,0 +1,15 @@
+.containerProfile {
+  width: 70%;
+  height: 200px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: bisque;
+  margin-top: 20px;
+}
+
+.containerProfile h1 {
+  margin: 0;
+}

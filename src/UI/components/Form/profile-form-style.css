@@ -1,0 +1,10 @@
+.containerProfileForm {
+  margin: auto;
+  width: 80%;
+  height: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
