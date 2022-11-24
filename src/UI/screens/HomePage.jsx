@@ -1,4 +1,5 @@
 import React from "react";
+import AddTaskModal from "../components/Modal/AddTaskModal/AddTaskModal";
 import Tabel from "../components/Tabel/Tabel";
 
 const HomePage = () => {
@@ -11,7 +12,7 @@ const HomePage = () => {
           </div>
 
           <div className="ol-md-4 justify-content-end  d-flex">
-            <button className="btn btn-primary">Add task</button>
+            <AddTaskModal />
           </div>
         </div>
       </div>

@@ -20,6 +20,8 @@ import { addUserDetails } from "../../../logic/actions/UserAction";
 import { getUserDetails } from "../../../logic/services/UserService";
 import { getUserProfileImage } from "../../../logic/services/AvatarService";
 import { addUserProfileImage } from "../../../logic/actions/AvatarAction";
+import { getTaskDetails } from "../../../logic/services/TaskService";
+import { getTasks } from "../../../logic/actions/TaskAction";
 
 const tokenID = getDataToLocalStorage();
 
@@ -43,15 +45,23 @@ const AppRouter = () => {
         console.log(response.data);
         dispatch(addUserDetails(response.data));
 
-        console.log(response.data._id);
-
         getUserProfileImage(response.data._id)
           .then((response) => {
-            dispatch(addUserProfileImage(response.data));
+            dispatch(addUserProfileImage(JSON.stringify(response.data)));
           })
 
           .catch((err) => {
             dispatch(addUserProfileImage(""));
+          });
+
+        getTaskDetails()
+          .then((response) => {
+            dispatch(getTasks(response.data.data));
+          })
+          .catch((error) => {
+            console.error(error);
+
+            dispatch(getTasks([]));
           });
       });
     }

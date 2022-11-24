@@ -1,4 +1,4 @@
-.profile-image-container {
+/* .profile-image-container {
   height: 150px;
   width: 150px;
   background-color: #e5e5e5;
@@ -10,16 +10,7 @@
   display: block;
 }
 
-/* .profilepic {
-  position: relative;
-  width: 145px;
-  height: 145px;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: #e9ecef;
-  margin-top: 60px;
-  margin-left: 40px;
-} */
+
 
 img {
   color: green;
@@ -87,4 +78,4 @@ img {
   font-size: 12px;
   width: 50%;
   text-align: center;
-}
+} */

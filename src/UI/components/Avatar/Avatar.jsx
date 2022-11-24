@@ -34,7 +34,7 @@ const Avatar = () => {
 
   return (
     <div>
-      {/* <img
+      <img
         src={`${image}`}
         style={{
           height: "100px",
@@ -42,7 +42,18 @@ const Avatar = () => {
           borderRadius: "50px",
           borderWidth: "1px",
         }}
-      /> */}
+      />
+      <input
+        type={"file"}
+        onChange={(e) => {
+          addUserProfileImage(e.target).then((response) => {
+            console.log(response);
+            dispatch(addUserProfileImageAction(JSON.stringify(response.data)));
+          });
+
+          setImage(window.URL.createObjectURL(e.target.files[0]));
+        }}
+      />
       <div className="col-md-6">
         <div className="profilepic">
           <img
@@ -56,20 +67,6 @@ const Avatar = () => {
             //style={{ width: 150, height: 150 }}
           />
         </div>
-        <input
-          type={"file"}
-          onChange={(e) => {
-            console.log(e);
-            addUserProfileImage(e.target).then((response) => {
-              console.log(response);
-              dispatch(addUserProfileImageAction(response.text()));
-            });
-
-            // addUserProfileImage(e.target);
-
-            setImage(window.URL.createObjectURL(e.target.files[0]));
-          }}
-        />
       </div>
 
       {/* <button onClick={() => dispatch(addUserProfileImageAction(image))}>

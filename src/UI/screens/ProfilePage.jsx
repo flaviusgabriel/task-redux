@@ -10,7 +10,7 @@ const ProfilePage = () => {
 
       {/* <ProfileFrom /> */}
 
-      <Avatar />
+      {/* <Avatar /> */}
     </div>
   );
 };

@@ -26,3 +26,9 @@ export const CLEAR_ALERT = "CLEAR_ALERT";
 //avatar
 export const ADD_USER_PROFILE_IMAGE = "ADD_USER_PROFILE_IMAGE";
 export const REMOVE_USER_PROFILE_IMAGE = "REMOVE_USER_PROFILE_IMAGE";
+
+//task
+export const GET_ALL_TASKS = "GET_ALL_TASKS";
+export const ADD_TASK = "ADD_TASK";
+export const UPDATE_TASK = "UPDATE_TASK";
+export const DELETE_TASK = "DELETE_TASK";

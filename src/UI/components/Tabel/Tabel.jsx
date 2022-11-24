@@ -1,16 +1,21 @@
 // src/components/pagination.table.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useTable, usePagination } from "react-table";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch, useSelector } from "react-redux";
+import EditTaskModal from "../Modal/EditTaskModal/EditTaskModal";
+import AddTaskModal from "../Modal/AddTaskModal/AddTaskModal";
+import { deleteTaskDetails } from "../../../logic/services/TaskService";
+import { deleteTask } from "../../../logic/actions/TaskAction";
 
-function Table({ columns, data }) {
+const Table = ({ columns, data }) => {
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    prepareRow,
+    prepareRow, //atat
     page,
     canPreviousPage,
     canNextPage,
@@ -25,7 +30,7 @@ function Table({ columns, data }) {
     {
       columns,
       data,
-      initialState: { pageIndex: 2, pageSize: 5 },
+      initialState: { pageIndex: 0, pageSize: 5 },
     },
     usePagination
   );
@@ -49,6 +54,7 @@ function Table({ columns, data }) {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
+                  <EditTaskModal object={cell} />;
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   );
@@ -58,10 +64,7 @@ function Table({ columns, data }) {
           })}
         </tbody>
       </table>
-      {/* 
-        Pagination can be built however you'd like. 
-        This is just a very basic UI implementation:
-      */}
+
       <ul className="pagination container">
         <li
           className="page-item"
@@ -102,9 +105,13 @@ function Table({ columns, data }) {
       </ul>
     </div>
   );
-}
+};
 
-function PaginationTableComponent() {
+const PaginationTableComponent = () => {
+  const dispatch = useDispatch();
+
+  const data = useSelector((state) => state.tasks);
+
   const columns = React.useMemo(
     () => [
       {
@@ -127,12 +134,24 @@ function PaginationTableComponent() {
         Header: "Actions",
         accessor: "actions",
         Cell: (props) => {
-          const rowIdx = props.row.id;
           return (
             <div>
-              <button className="btn btn-success mr-2">Edit</button>
+              <EditTaskModal object={props.row.original} />
 
-              <button className="btn btn-danger">Delete</button>
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  deleteTaskDetails(props.row.original._id)
+                    .then(() => {
+                      dispatch(deleteTask(props.row.original._id));
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                }}
+              >
+                Delete
+              </button>
             </div>
           );
         },
@@ -141,67 +160,7 @@ function PaginationTableComponent() {
     []
   );
 
-  const data = [
-    {
-      completed: "true",
-      description: "Here comes some text for description",
-      createdAt: "01 / 02 / 2022",
-      updatedAt: "01 / 02 / 2022",
-      actions: 75,
-    },
-    {
-      completed: "true",
-      description: "Here comes some text for description",
-      createdAt: "01 / 02 / 2022",
-      updatedAt: "01 / 02 / 2022",
-      actions: 75,
-    },
-    {
-      completed: "true",
-      description: "Here comes some text for description",
-      createdAt: "01 / 02 / 2022",
-      updatedAt: "01 / 02 / 2022",
-      actions: 75,
-    },
-    {
-      completed: "true",
-      description: "Here comes some text for description",
-      createdAt: "01 / 02 / 2022",
-      updatedAt: "01 / 02 / 2022",
-      actions: 75,
-    },
-    {
-      completed: "true",
-      description: "Here comes some text for description",
-      createdAt: "01 / 02 / 2022",
-      updatedAt: "01 / 02 / 2022",
-      actions: 75,
-    },
-    {
-      completed: "true",
-      description: "Here comes some text for description",
-      createdAt: "01 / 02 / 2022",
-      updatedAt: "01 / 02 / 2022",
-      actions: 75,
-    },
-    {
-      completed: "true",
-      description: "Here comes some text for description",
-      createdAt: "01 / 02 / 2022",
-      updatedAt: "01 / 02 / 2022",
-      actions: 75,
-    },
-    {
-      completed: "true",
-      description: "Here comes some text for description",
-      createdAt: "01 / 02 / 2022",
-      updatedAt: "01 / 02 / 2022",
-      actions: 75,
-    },
-  ];
-  console.log(JSON.stringify(data));
-
   return <Table columns={columns} data={data} />;
-}
+};
 
 export default PaginationTableComponent;

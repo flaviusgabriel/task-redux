@@ -1,16 +1,22 @@
 import axios from "../axios/CustomCall";
-import { API_URL } from "../constants/Constants";
 
-export const updateTaskDetails = (name, email, age) => {
-  return axios.put(`${API_URL}/task`, {
-    name,
-    email,
-    age,
+export const updateTaskDetails = (id, completed) => {
+  return axios.put(`/task/${id}`, {
+    completed: completed,
+  });
+};
+
+export const addTaskDetail = (description) => {
+  return axios.post(`/task`, {
+    description: description,
   });
 };
 
 export const getTaskDetails = () => {
-  return axios.get(`${API_URL}/task`);
+  return axios.get(`/task`);
 };
 
-export default updateUserDetails;
+export const deleteTaskDetails = (id) => {
+  // id of task
+  return axios.delete(`/task/${id}`);
+};
