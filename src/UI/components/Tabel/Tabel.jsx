@@ -8,6 +8,7 @@ import EditTaskModal from "../Modal/EditTaskModal/EditTaskModal";
 import AddTaskModal from "../Modal/AddTaskModal/AddTaskModal";
 import { deleteTaskDetails } from "../../../logic/services/TaskService";
 import { deleteTask } from "../../../logic/actions/TaskAction";
+import CheckInput from "../CheckInput/CheckInput";
 
 const Table = ({ columns, data }) => {
   // Use the state and functions returned from useTable to build your UI
@@ -54,7 +55,7 @@ const Table = ({ columns, data }) => {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
-                  <EditTaskModal object={cell} />;
+                  // <EditTaskModal object={cell} />;
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   );
@@ -116,7 +117,14 @@ const PaginationTableComponent = () => {
     () => [
       {
         Header: "Completed",
-        accessor: "completed",
+        accessor: " completed",
+        Cell: (props) => {
+          return (
+            <div>
+              <CheckInput object={props.row.original} />
+            </div>
+          );
+        },
       },
       {
         Header: "Description",

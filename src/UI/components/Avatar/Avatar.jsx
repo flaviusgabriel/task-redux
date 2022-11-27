@@ -12,76 +12,54 @@ import {
 import "../ProfileView/profile-view-style.css";
 import CreateImageFromInitials from "../../utils/CreateImageFromInitials";
 import GetRandomColor from "../../utils/GetRandomColor";
+import { getUserProfileImage } from "../../../logic/services/AvatarService";
 import "./avatar.css";
 
 const Avatar = () => {
-  const dispatch = useDispatch();
   const avatar = useSelector((state) => state.avatar);
-
-  const [image, setImage] = useState("");
-
-  useEffect(() => {
-    if (avatar !== "" || null) {
-      setImage(avatar);
-
-      console.log(image);
-    }
-  }, [avatar]);
-
+  const [image, setImage] = useState(" ");
   // profile image letters
   const user = useSelector((state) => state.user);
   const { name } = user;
 
+  useEffect(() => {
+    console.log(image);
+    console.log(name);
+  }, [image]);
+
+  useEffect(() => {
+    console.log(avatar);
+    if (user._id !== undefined) {
+      getUserProfileImage(user._id)
+        .then((response) => {
+          console.log(response);
+          const blob = new Blob([response.data]);
+
+          setImage(URL.createObjectURL(blob));
+        })
+        .catch(() => {
+          console.error("No image found!");
+          setImage(JSON.stringify(""));
+        });
+    }
+  }, [avatar, user]);
+
   return (
     <div>
-      <img
-        src={`${image}`}
-        style={{
-          height: "100px",
-          width: "100px",
-          borderRadius: "50px",
-          borderWidth: "1px",
-        }}
-      />
-      <input
-        type={"file"}
-        onChange={(e) => {
-          addUserProfileImage(e.target).then((response) => {
-            console.log(response);
-            dispatch(addUserProfileImageAction(JSON.stringify(response.data)));
-          });
-
-          setImage(window.URL.createObjectURL(e.target.files[0]));
-        }}
-      />
       <div className="col-md-6">
         <div className="profilepic">
           <img
             id="preview"
             src={
-              `${image}`.length <= 0
+              image === " " || image === undefined
                 ? CreateImageFromInitials(150, name, GetRandomColor())
-                : `${image}`
+                : image
             }
             alt="profile-pic"
-            //style={{ width: 150, height: 150 }}
+            style={{ width: 150, height: 150 }}
           />
         </div>
       </div>
-
-      {/* <button onClick={() => dispatch(addUserProfileImageAction(image))}>
-        Add Image
-      </button>
-      <button
-        className="btn btn-primary"
-        onClick={() =>
-          deleteUserProfileImage(image).then(() => {
-            dispatch(removeUserProfileImage(""));
-          })
-        }
-      >
-        Delete Profile Image
-      </button> */}
     </div>
   );
 };
@@ -127,7 +105,7 @@ export default Avatar;
 //                     backgroundColor: '#edf2f7',
 //                 }}
 //             >
-//                 {' '}
+//
 //                 <div className="flex w-full items-center justify-center bg-grey-lighter">
 //                     <label className="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:text-blue-800">
 //                         <svg

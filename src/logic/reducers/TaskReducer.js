@@ -11,14 +11,27 @@ const taskReducer = (state = initialState, action) => {
   const { payload } = action;
   switch (action.type) {
     case GET_ALL_TASKS:
-      return payload;
+      return payload.map((value) => {
+        if (value.completed === true) {
+          value.completed = "Completed";
+        } else if (value.completed === false) {
+          value.completed = "Not Completed";
+        }
+
+        return value;
+      });
     case ADD_TASK:
-      return [...state, { ...payload }];
+      return [...state, { ...payload, completed: "Not Completed" }];
     case UPDATE_TASK:
       return [
         ...state.map((value) => {
           if (value._id === payload._id) {
-            value = { ...value, ...payload };
+            value = {
+              ...value,
+              ...payload,
+              completed:
+                payload.completed === true ? "Completed" : "Not Completed",
+            };
           }
           return value;
         }),

@@ -45,15 +45,6 @@ const AppRouter = () => {
         console.log(response.data);
         dispatch(addUserDetails(response.data));
 
-        getUserProfileImage(response.data._id)
-          .then((response) => {
-            dispatch(addUserProfileImage(JSON.stringify(response.data)));
-          })
-
-          .catch((err) => {
-            dispatch(addUserProfileImage(""));
-          });
-
         getTaskDetails()
           .then((response) => {
             dispatch(getTasks(response.data.data));

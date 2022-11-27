@@ -1,11 +1,16 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUserProfileImage } from "../../../logic/services/AvatarService";
 import Avatar from "../Avatar/Avatar";
+import AddImageModal from "../Modal/AddImageModal/AddImageModal";
 import EditDetailsModal from "../Modal/EditDetailsModal/EditDetailsModal";
+import { addUserProfileImage as addUserProfileImageAction } from "../../../logic/actions/AvatarAction";
 
 import "./profile-view-style.css";
 
 const ProfileView = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const avatar = useSelector((state) => state.avatar);
 
   const { name, email, age, createdAt, updatedAt } = user;
 
@@ -81,6 +86,17 @@ const ProfileView = () => {
             </ul>
           </div>
         </div>
+        <AddImageModal />
+        <button
+          className="btn btn-danger"
+          onClick={() =>
+            deleteUserProfileImage().then(() =>
+              dispatch(addUserProfileImageAction(!avatar))
+            )
+          }
+        >
+          Delete Image
+        </button>
       </div>
     </div>
   );
